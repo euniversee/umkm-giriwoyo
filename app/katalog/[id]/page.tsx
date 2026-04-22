@@ -1,19 +1,36 @@
 import ImageWithFallback from "@/components/image-with-fallback"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { MessageCircle, MapPin, ArrowLeft } from "lucide-react"
+import { MessageCircle, MapPin, ArrowLeft, ArrowRight, Share2, Globe, User } from "lucide-react"
 import ImageGallery from "@/components/image-gallery"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { loadUmkmData } from "@/lib/load-umkm-data"
+import type { Metadata } from "next"
 
 interface ProductDetailProps {
-  params: {
+  params: Promise<{
     id: string
+  }>
+}
+
+// SEO Metadata Generation
+export async function generateMetadata({ params }: ProductDetailProps): Promise<Metadata> {
+  const { id } = await params
+  const umkmData = await loadUmkmData()
+  const [umkmId, productIndex] = id.split("-").map(Number)
+  const umkm = umkmData.find((u) => u.id === umkmId)
+  const product = umkm?.products[productIndex]
+
+  if (!product) return { title: "Produk Tidak Ditemukan" }
+
+  return {
+    title: `${product["Nama Produk"]} | ${umkm?.["Nama Usaha"]}`,
+    description: product["Deskripsi Produk"]?.slice(0, 160) || "Detail produk UMKM Giriwoyo",
   }
 }
 
-// Utility functions (inline)
+// Utility functions
 function extractPrice(priceStr: string): number {
   if (!priceStr || priceStr === "#") return 0
   const cleanPrice = priceStr.replace(/[^\d]/g, "")
@@ -25,8 +42,9 @@ function formatPrice(price: number): string {
   return `Rp ${price.toLocaleString("id-ID")}`
 }
 
-
 export default async function ProductDetail({ params }: ProductDetailProps) {
+  const { id } = await params
+  
   try {
     const umkmData = await loadUmkmData()
 
@@ -47,8 +65,8 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
       )
     }
 
-    // Parse ID untuk mendapatkan UMKM dan product index
-    const [umkmId, productIndex] = params.id.split("-").map(Number)
+    // Parse ID
+    const [umkmId, productIndex] = id.split("-").map(Number)
     const umkm = umkmData.find((u) => u.id === umkmId)
     const product = umkm?.products[productIndex]
 
@@ -56,7 +74,7 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
       notFound()
     }
 
-    // Get related products from the same UMKM
+    // Related products from same UMKM
     const relatedProducts = umkm.products
       .map((p: any, index: number) => ({
         id: `${umkm.id}-${index}`,
@@ -69,18 +87,13 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
       .filter((_, index) => index !== productIndex)
       .slice(0, 3)
 
-    // Parse coordinates for map link - improved coordinate parsing
     const parseCoordinates = (koordinatStr: string) => {
       if (!koordinatStr || koordinatStr === "#") return null
-
       const coords = koordinatStr.split(",").map((coord) => coord.trim())
       if (coords.length === 2) {
         const lat = Number.parseFloat(coords[0])
         const lng = Number.parseFloat(coords[1])
-
-        if (!isNaN(lat) && !isNaN(lng)) {
-          return { lat, lng }
-        }
+        if (!isNaN(lat) && !isNaN(lng)) return { lat, lng }
       }
       return null
     }
@@ -94,20 +107,7 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
       const productName = product["Nama Produk"] || "Produk"
       const umkmName = umkm["Nama Usaha"] || "UMKM"
       const price = product.Harga || "Hubungi Penjual"
-
-      const message = `Halo ${umkmName}! 
-
-Saya tertarik dengan produk:
-*${productName}*
-Harga: ${price}
-
-Saya ingin mengetahui:
-• Ketersediaan stok
-• Detail produk lebih lanjut
-• Cara pemesanan
-
-Terima kasih!`
-
+      const message = `Halo ${umkmName}! \n\nSaya tertarik dengan produk:\n*${productName}*\nHarga: ${price}\n\nSaya ingin mengetahui ketersediaan stok dan detail pemesanan. Terima kasih!`
       return encodeURIComponent(message)
     }
 
@@ -117,187 +117,157 @@ Terima kasih!`
         : null
 
     return (
-      <div className="bg-[#fcfbf6] min-h-screen">
+      <div className="bg-[#fcfbf6] min-h-screen pt-[72px]">
         <Header currentPath="/katalog" />
 
-        {/* Breadcrumb */}
-        <section className="container mx-auto px-6 py-4">
-          <nav className="flex items-center space-x-2 text-sm text-gray-600">
-            <Link href="/" className="hover:text-[#b4252b]">
-              Beranda
-            </Link>
-            <span>/</span>
-            <Link href="/katalog" className="hover:text-[#b4252b]">
-              Katalog
-            </Link>
-            <span>/</span>
-            <span className="text-[#161616]">{product["Nama Produk"] || "Produk"}</span>
-          </nav>
-        </section>
+        <main className="container mx-auto px-6 py-12 lg:py-24">
+          <div className="flex flex-col lg:grid lg:grid-cols-[1fr,450px] gap-16 xl:gap-24 items-start">
+            
+            {/* Left Column: Visuals */}
+            <div className="w-full space-y-12">
+               {/* Breadcrumb - Editorial Style */}
+               <nav className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#161616]/40">
+                  <Link href="/katalog" className="hover:text-[#b4252b] transition-colors">Catalog</Link>
+                  <ArrowRight className="w-3 h-3" />
+                  <span className="text-[#161616] truncate max-w-[200px]">{product["Nama Produk"]}</span>
+               </nav>
 
-        {/* Product Detail */}
-        <section className="container mx-auto px-6 py-8">
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* Product Images */}
-            <div>
-              <ImageGallery
-                images={umkm.cdn_links || ["/placeholder.svg"]}
-                productName={product["Nama Produk"] || "Produk"}
-              />
-            </div>
-
-            {/* Product Info */}
-            <div>
-              <h1 className="text-3xl font-semibold text-[#161616] mb-4">
-                {product["Nama Produk"] || "Produk Tanpa Nama"}
-              </h1>
-
-              {/* UMKM Info */}
-              <div className="bg-[#f8f8f8] p-4 rounded-xl mb-6">
-                <h3 className="font-semibold text-[#161616] mb-2">Informasi UMKM</h3>
-                <p className="text-sm text-gray-600 mb-1">
-                  <strong>Nama Usaha:</strong> {umkm["Nama Usaha"] || "UMKM"}
-                </p>
-                <p className="text-sm text-gray-600 mb-3">
-                  <strong>Alamat:</strong> {umkm.Alamat || "Alamat tidak tersedia"}
-                </p>
-                <div className="flex space-x-2">
-                  {whatsappUrl && (
-                    <a
-                      href={whatsappUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center space-x-1 bg-[#25D366] text-white px-3 py-1 rounded-full text-xs hover:bg-green-600 transition"
-                    >
-                      <MessageCircle className="w-3 h-3" />
-                      <span>WhatsApp</span>
-                    </a>
-                  )}
-                  <a
-                    href={mapUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-[#161616] text-white px-3 py-1 rounded-full text-xs hover:bg-black transition"
-                  >
-                    Lihat Lokasi
-                  </a>
-                </div>
-              </div>
-
-              {/* Price */}
-              <div className="mb-6">
-                <span className="text-3xl font-bold text-[#b4252b]">{product.Harga || "Hubungi Penjual"}</span>
-              </div>
-
-              {/* Description */}
-              <div className="mb-6">
-                <h3 className="font-semibold text-[#161616] mb-2">Deskripsi Produk</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {product["Deskripsi Produk"] || "Deskripsi tidak tersedia"}
-                </p>
-              </div>
-
-              {/* Contact Actions */}
-              <div className="space-y-3 mb-6">
-                {whatsappUrl ? (
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full flex items-center justify-center space-x-2 bg-[#25D366] text-white px-8 py-3 rounded-lg hover:bg-green-600 transition"
-                  >
-                    <MessageCircle className="w-5 h-5" />
-                    <span>HUBUNGI VIA WHATSAPP</span>
-                  </a>
-                ) : (
-                  <div className="w-full flex items-center justify-center bg-gray-300 text-gray-500 px-8 py-3 rounded-lg cursor-not-allowed">
-                    <span>KONTAK TIDAK TERSEDIA</span>
+               <div className="relative group">
+                  <ImageGallery
+                    images={umkm.cdn_links || ["/placeholder.svg"]}
+                    productName={product["Nama Produk"] || "Produk"}
+                  />
+                  {/* Floating metadata badge */}
+                  <div className="absolute top-8 left-8 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/20 hidden md:block">
+                     <span className="text-[10px] font-bold uppercase tracking-widest text-[#b4252b] block mb-1">Authentic Local</span>
+                     <span className="text-sm font-bold text-[#161616]">Giriwoyo, Wonogiri</span>
                   </div>
-                )}
-              </div>
+               </div>
+
+               {/* Large Editorial Description */}
+               <div className="pt-12 border-t border-[#161616]/5">
+                  <h3 className="text-sm font-bold text-[#b4252b] uppercase tracking-[0.4em] mb-12">Product Narrative</h3>
+                  <p className="text-4xl md:text-5xl font-bold text-[#161616] tracking-tighter leading-[1.1] italic mb-12">
+                     "{product["Deskripsi Produk"] || "Karya autentik dari pengrajin lokal yang menjaga tradisi di setiap detailnya."}"
+                  </p>
+                  
+                  <div className="grid md:grid-cols-2 gap-12 pt-12">
+                     <div className="space-y-4">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#161616]/40">Kategori</span>
+                        <p className="text-lg font-bold text-[#161616]">{umkm.Kategori || "Lainnya"}</p>
+                     </div>
+                     <div className="space-y-4">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#161616]/40">Ketersediaan</span>
+                        <p className="text-lg font-bold text-[#161616]">Ready to Order</p>
+                     </div>
+                  </div>
+               </div>
             </div>
-          </div>
-        </section>
 
-        {/* Product Tabs */}
-        <section className="container mx-auto px-6 py-8">
-          <div className="border-b border-gray-200 mb-8">
-            <nav className="flex space-x-8">
-              <button className="py-2 px-1 border-b-2 border-[#b4252b] text-[#b4252b] font-medium text-sm">
-                Deskripsi
-              </button>
-            </nav>
-          </div>
+            {/* Right Column: Sticky Info */}
+            <aside className="lg:sticky lg:top-32 w-full">
+               <div className="bg-white p-10 md:p-12 rounded-[50px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] border border-[#161616]/5">
+                  
+                  <div className="mb-12">
+                    <span className="text-[#b4252b] font-bold text-[10px] uppercase tracking-[0.4em] mb-4 block">Store Exclusive</span>
+                    <h1 className="text-5xl font-bold text-[#161616] tracking-tighter leading-[0.9] mb-6 italic">
+                       {product["Nama Produk"]}
+                    </h1>
+                    <div className="flex items-center gap-4">
+                       <span className="text-2xl font-bold text-[#161616]">{product.Harga || "Hubungi Penjual"}</span>
+                       <div className="h-px flex-1 bg-[#161616]/5"></div>
+                    </div>
+                  </div>
 
-          <div className="prose max-w-none">
-            <p className="text-gray-600 leading-relaxed mb-4">
-              {product["Deskripsi Produk"] || "Deskripsi tidak tersedia"}
-            </p>
-            <div className="bg-[#f8f8f8] p-4 rounded-xl">
-              <h4 className="font-semibold text-[#161616] mb-2">Informasi Tambahan</h4>
-              <p className="text-sm text-gray-600 mb-2">
-                <strong>UMKM:</strong> {umkm["Nama Usaha"] || "UMKM"}
-              </p>
-              <p className="text-sm text-gray-600 mb-2">
-                <strong>Lokasi:</strong> {umkm.Alamat || "Alamat tidak tersedia"}
-              </p>
-              <p className="text-sm text-gray-600 mb-2">
-                <strong>Koordinat:</strong> {umkm.Koordinat}
-              </p>
-              <p className="text-sm text-gray-600">
-                Produk ini merupakan hasil karya UMKM lokal dari Giriwoyo yang dibuat dengan penuh dedikasi dan kualitas
-                terbaik.
-              </p>
-            </div>
-          </div>
-        </section>
+                  {/* Merchant Card */}
+                  <div className="bg-[#fcfbf6] p-8 rounded-[32px] mb-12 group transition-all hover:bg-[#161616] hover:text-white">
+                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#b4252b] mb-4 block">Merchant Profile</span>
+                     <h4 className="text-xl font-bold mb-6 italic">{umkm["Nama Usaha"]}</h4>
+                     
+                     <div className="space-y-4">
+                        <div className="flex items-center gap-4 text-xs font-semibold">
+                           <MapPin className="w-4 h-4 opacity-40" />
+                           <span className="line-clamp-1">{umkm.Alamat}</span>
+                        </div>
+                        <div className="flex items-center gap-4 text-xs font-semibold">
+                           <User className="w-4 h-4 opacity-40" />
+                           <span>Warga Lokal Giriwoyo</span>
+                        </div>
+                     </div>
 
-        {/* Related Products */}
+                     <div className="mt-8 pt-8 border-t border-[#161616]/5 group-hover:border-white/10 flex gap-4">
+                        <a href={mapUrl} target="_blank" className="flex-1 text-center py-4 rounded-xl border border-[#161616]/10 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-[#161616] transition-all">Location</a>
+                        <Link href="/peta-umkm" className="flex-1 text-center py-4 rounded-xl border border-[#161616]/10 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-[#161616] transition-all">Interactive Map</Link>
+                     </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    {whatsappUrl ? (
+                      <a
+                        href={whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full flex items-center justify-center p-8 bg-[#161616] text-white rounded-[24px] text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#b4252b] transition-all shadow-xl"
+                      >
+                        Pesan via WhatsApp
+                      </a>
+                    ) : (
+                      <div className="w-full p-8 bg-gray-100 text-gray-400 rounded-[24px] text-xs font-bold uppercase tracking-[0.2em] text-center italic">
+                        Contact Offline
+                      </div>
+                    )}
+                    <button className="w-full flex items-center justify-center p-8 bg-transparent border border-[#161616]/5 text-[#161616] rounded-[24px] text-xs font-bold uppercase tracking-[0.2em] hover:bg-white transition-all">
+                       Bagikan Karya Ini
+                    </button>
+                  </div>
+
+                  <p className="mt-8 text-center text-[10px] text-[#161616]/40 font-bold uppercase tracking-[0.1em]">
+                     Setiap pembelian mendukung pengrajin lokal.
+                  </p>
+               </div>
+            </aside>
+          </div>
+        </main>
+
+        {/* Related Products Section */}
         {relatedProducts.length > 0 && (
-          <section className="container mx-auto px-6 py-16">
-            <h2 className="text-3xl font-semibold text-[#161616] mb-8 text-center">
-              Produk Lainnya dari {umkm["Nama Usaha"] || "UMKM"}
-            </h2>
+          <section className="bg-white py-24 md:py-32">
+            <div className="container mx-auto px-6 text-center mb-16">
+              <span className="text-[#b4252b] font-bold text-[10px] uppercase tracking-[0.4em] mb-4 block">Recommended</span>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#161616] tracking-tighter italic">Lainnya Dari {umkm["Nama Usaha"]}</h2>
+            </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="container mx-auto px-6 grid md:grid-cols-3 gap-8">
               {relatedProducts.map((relatedProduct) => (
-                <div
+                <Link
+                  href={`/katalog/${relatedProduct.id}`}
                   key={relatedProduct.id}
-                  className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                  className="group bg-[#fcfbf6] rounded-[40px] overflow-hidden border border-[#161616]/5 transition-all hover:shadow-2xl"
                 >
-                  <div className="h-48 relative overflow-hidden">
+                  <div className="aspect-[4/5] relative overflow-hidden bg-[#161616]">
                     <ImageWithFallback
                       src={relatedProduct.image || "/placeholder.svg"}
                       alt={relatedProduct.name}
                       fill
-                      className="object-cover transition-transform hover:scale-105"
+                      className="object-cover opacity-90 transition-transform duration-700 group-hover:scale-110"
                     />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-[#161616] mb-2 line-clamp-2">{relatedProduct.name}</h3>
-                    <div className="flex justify-between items-center">
-                      <span className="font-semibold text-[#161616]">{formatPrice(relatedProduct.price)}</span>
-                      <Link
-                        href={`/katalog/${relatedProduct.id}`}
-                        className="bg-[#161616] text-white text-xs px-3 py-1 rounded-full hover:bg-black transition"
-                      >
-                        Detail
-                      </Link>
+                    <div className="absolute bottom-6 left-6 right-6 p-6 bg-white/90 backdrop-blur-xl rounded-3xl translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                       <span className="text-[10px] font-bold text-[#b4252b] uppercase tracking-[0.2em] mb-2 block">Premium Item</span>
+                       <h4 className="text-lg font-bold text-[#161616] truncate mb-1 italic">{relatedProduct.name}</h4>
+                       <p className="text-xs font-bold text-[#161616]/60">{formatPrice(relatedProduct.price)}</p>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </section>
         )}
 
-        {/* Footer */}
         <Footer />
       </div>
     )
   } catch (error) {
     console.error("Error in ProductDetail:", error)
-
     return (
       <div className="bg-[#fcfbf6] min-h-screen">
         <Header currentPath="/katalog" />
