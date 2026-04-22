@@ -1,7 +1,8 @@
-import ImageWithFallback from "@/components/image-with-fallback"
-import Link from "next/link"
 import type { Metadata } from "next"
-import MobileMenu from "@/components/mobile-menu"
+import Link from "next/link"
+import ImageWithFallback from "@/components/image-with-fallback"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
 import { loadUmkmData } from "@/lib/load-umkm-data"
 
 interface KatalogProps {
@@ -191,58 +192,21 @@ export default async function Katalog({ searchParams }: KatalogProps) {
 
   return (
     <div className="bg-white min-h-screen">
-      {/* Navigation */}
-      <header className="container mx-auto px-6 py-5 flex justify-between items-center">
-        <div className="flex items-center">
-          <Link href="/">
-            <div className="flex items-center">
-              <ImageWithFallback
-                src="/images/logo.svg"
-                alt="UMKM Giriwoyo Logo"
-                width={33}
-                height={24}
-                className="mr-2"
-              />
-              <span className="font-semibold text-sm text-[#161616]">UMKM Giriwoyo</span>
-            </div>
-          </Link>
-        </div>
-        <nav className="hidden md:flex space-x-8">
-          <Link href="/" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-            Beranda
-          </Link>
-          <Link href="/tentang-kami" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-            Tentang Kami
-          </Link>
-          <Link href="/katalog" className="text-sm font-normal text-[#b4252b]">
-            Katalog
-          </Link>
-          <Link href="/peta-umkm" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-            Peta UMKM
-          </Link>
-          <Link href="/panduan-belanja" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-            Panduan Belanja
-          </Link>
-          <Link href="/kontak" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-            Kontak
-          </Link>
-        </nav>
-        <div className="flex items-center">
-          <MobileMenu currentPath="/katalog" />
-        </div>
-      </header>
+      <Header currentPath="/katalog" />
 
       {/* Hero Section */}
-      <section className="bg-[#f8f8f8] py-16">
+      <section className="py-24">
         <div className="container mx-auto px-6 text-center">
-          <h1 className="text-5xl font-semibold text-[#161616] mb-4">Katalog Produk</h1>
-          <p className="text-sm text-[#161616] max-w-2xl mx-auto">
-            Temukan berbagai produk berkualitas dari UMKM Giriwoyo
+          <span className="text-[#b4252b] font-bold text-sm uppercase tracking-[0.2em] mb-4 block">Our Catalog</span>
+          <h1 className="text-6xl font-bold text-[#161616] tracking-tighter mb-6 leading-tight">Produk Pilihan Giriwoyo</h1>
+          <p className="text-xl text-[#161616]/60 max-w-2xl mx-auto leading-relaxed">
+            Temukan berbagai produk berkualitas yang dibuat dengan ketulusan oleh para pelaku UMKM Giriwoyo.
           </p>
-          <p className="text-xs text-gray-500 mt-2">
-            Menampilkan {productsForDisplay.length} dari {shuffledProducts.length} produk • Halaman {currentPage} dari{" "}
-            {totalPages}
-          </p>
+          <div className="inline-flex items-center gap-4 mt-8 px-6 py-2 bg-[#161616]/5 rounded-full text-xs font-medium text-[#161616]/60">
+            <span>Menampilkan {shuffledProducts.length} produk</span>
+            <span className="w-1 h-1 bg-[#161616]/20 rounded-full" />
+            <span>Halaman {currentPage} dari {totalPages}</span>
+          </div>
         </div>
       </section>
 
@@ -342,54 +306,7 @@ export default async function Katalog({ searchParams }: KatalogProps) {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-[#fcfbf6] py-16 mt-12 border-t border-[#f1f1f1]">
-        <div className="container mx-auto px-6">
-          <div className="mb-10">
-            <h3 className="font-bold text-lg mb-2">UMKM GIO: Dari Giriwoyo, Untuk Indonesia.</h3>
-            <p className="text-sm font-normal max-w-md">
-              Sebuah jembatan digital untuk mendukung pertumbuhan UMKM lokal, melestarikan tradisi, dan menghadirkan
-              produk berkualitas bagi semua.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex space-x-4 mt-6">
-                <Link href="https://www.instagram.com/umkm.gio/" className="text-[#161616]">
-                  <div className="w-8 h-8 flex items-center justify-center border border-[#d9d9d9] rounded-full">
-                    <ImageWithFallback src="/images/instagram.svg" alt="Instagram" width={16} height={16} />
-                  </div>
-                </Link>
-                <Link href="https://www.instagram.com/ofc.mapresgio/" className="text-[#161616]">
-                  <div className="w-8 h-8 flex items-center justify-center border border-[#d9d9d9] rounded-full">
-                    <ImageWithFallback src="/images/instagram.svg" alt="Instagram" width={16} height={16} />
-                  </div>
-                </Link>
-              </div>
-              <div className="flex space-x-2 mt-2 text-xs">
-                <span>@umkmgio</span>
-                <span>@ofcmapresgio</span>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-medium text-sm mb-3">Beranda</h4>
-              <h4 className="font-medium mb-3 text-sm">Tentang Kami</h4>
-              <h4 className="font-medium mb-3 text-sm">Produk</h4>
-            </div>
-
-            <div>
-              <h4 className="font-medium mb-3 text-sm">Peta UMKM</h4>
-            </div>
-
-            <div>
-              <h4 className="font-medium mb-3 text-sm">Panduan Belanja</h4>
-              <h4 className="font-medium mb-3 text-sm">Kontak</h4>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

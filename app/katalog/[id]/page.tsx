@@ -1,9 +1,11 @@
 import ImageWithFallback from "@/components/image-with-fallback"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { MessageCircle } from "lucide-react"
-import MobileMenu from "@/components/mobile-menu"
+import { MessageCircle, MapPin, ArrowLeft } from "lucide-react"
 import ImageGallery from "@/components/image-gallery"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
+import { loadUmkmData } from "@/lib/load-umkm-data"
 
 interface ProductDetailProps {
   params: {
@@ -23,114 +25,6 @@ function formatPrice(price: number): string {
   return `Rp ${price.toLocaleString("id-ID")}`
 }
 
-// Load UMKM data function (inline) with updated CSV URL
-async function loadUmkmData() {
-  try {
-    const response = await fetch(
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/UMKM_Giriwoyo_Merged%20-%20UMKM_Giriwoyo_Merged.csv-HoVxuTq4Smz9uABt0C2Ppmx2eBsNzQ.csv",
-      { cache: "no-store" },
-    )
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-
-    const csvText = await response.text()
-    const lines = csvText.split("\n")
-
-    if (lines.length < 2) {
-      throw new Error("CSV file is empty or invalid")
-    }
-
-    const umkmData = []
-
-    for (let i = 1; i < lines.length; i++) {
-      const line = lines[i].trim()
-      if (!line) continue
-
-      try {
-        const values = parseCSVLine(line)
-
-        if (values.length >= 6) {
-          let products = []
-          const productsStr = values[4]
-          if (productsStr && productsStr !== "#") {
-            try {
-              const cleanProductsStr = productsStr.replace(/'/g, '"').replace(/\n/g, "").trim()
-              products = JSON.parse(cleanProductsStr)
-            } catch (e) {
-              console.warn(`Error parsing products for line ${i}:`, e)
-              products = []
-            }
-          }
-
-          let cdnLinks = []
-          const cdnLinksStr = values[5]
-          if (cdnLinksStr && cdnLinksStr !== "#") {
-            try {
-              const cleanCdnStr = cdnLinksStr.replace(/'/g, '"').replace(/\n/g, "").trim()
-              cdnLinks = JSON.parse(cleanCdnStr)
-            } catch (e) {
-              console.warn(`Error parsing cdn_links for line ${i}:`, e)
-              cdnLinks = ["/placeholder.svg"]
-            }
-          }
-
-          if (products.length > 0) {
-            umkmData.push({
-              id: i,
-              "Nama Usaha": values[0].replace(/"/g, ""),
-              Alamat: values[1].replace(/"/g, ""),
-              Koordinat: values[2].replace(/"/g, ""),
-              "Link WhatsApp": values[3].replace(/"/g, ""),
-              products: products,
-              cdn_links: cdnLinks.length > 0 ? cdnLinks : ["/placeholder.svg"],
-            })
-          }
-        }
-      } catch (error) {
-        console.warn(`Error parsing line ${i}:`, error)
-        continue
-      }
-    }
-
-    return umkmData
-  } catch (error) {
-    console.error("Error loading UMKM data:", error)
-    return []
-  }
-}
-
-function parseCSVLine(line: string): string[] {
-  const result = []
-  let current = ""
-  let inQuotes = false
-  let i = 0
-
-  while (i < line.length) {
-    const char = line[i]
-
-    if (char === '"') {
-      if (inQuotes && line[i + 1] === '"') {
-        current += '"'
-        i += 2
-      } else {
-        inQuotes = !inQuotes
-        i++
-      }
-    } else if (char === "," && !inQuotes) {
-      result.push(current)
-      current = ""
-      i++
-    } else {
-      current += char
-      i++
-    }
-  }
-
-  result.push(current)
-  return result
-}
 
 export default async function ProductDetail({ params }: ProductDetailProps) {
   try {
@@ -138,54 +32,17 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
 
     if (umkmData.length === 0) {
       return (
-        <div className="bg-white min-h-screen">
-          <header className="container mx-auto px-6 py-5 flex justify-between items-center">
-            <div className="flex items-center">
-              <Link href="/">
-                <div className="flex items-center">
-                  <ImageWithFallback
-                    src="/images/logo.svg"
-                    alt="UMKM Giriwoyo Logo"
-                    width={33}
-                    height={24}
-                    className="mr-2"
-                  />
-                  <span className="font-semibold text-sm text-[#161616]">UMKM Giriwoyo</span>
-                </div>
-              </Link>
-            </div>
-            <nav className="hidden md:flex space-x-8">
-              <Link href="/" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-                Beranda
-              </Link>
-              <Link href="/tentang-kami" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-                Tentang Kami
-              </Link>
-              <Link href="/katalog" className="text-sm font-normal text-[#b4252b]">
-                Katalog
-              </Link>
-              <Link href="/peta-umkm" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-                Peta UMKM
-              </Link>
-              <Link href="/panduan-belanja" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-                Panduan Belanja
-              </Link>
-              <Link href="/kontak" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-                Kontak
-              </Link>
-            </nav>
-            <div className="flex items-center">
-              <MobileMenu currentPath="/katalog" />
-            </div>
-          </header>
-
-          <section className="container mx-auto px-6 py-16 text-center">
-            <h1 className="text-3xl font-semibold text-[#161616] mb-4">Produk Tidak Ditemukan</h1>
-            <p className="text-gray-500 mb-8">Maaf, data produk sedang tidak tersedia. Silakan coba lagi nanti.</p>
-            <Link href="/katalog" className="bg-[#161616] text-white px-6 py-3 rounded-full hover:bg-black transition">
-              Kembali ke Katalog
+        <div className="bg-[#fcfbf6] min-h-screen">
+          <Header currentPath="/katalog" />
+          <section className="container mx-auto px-6 py-32 text-center">
+            <h1 className="text-5xl font-bold text-[#161616] tracking-tighter mb-4">Produk Tidak Ditemukan</h1>
+            <p className="text-[#161616]/60 mb-12 max-w-md mx-auto">Maaf, data produk sedang tidak tersedia atau telah dihapus.</p>
+            <Link href="/katalog" className="inline-flex items-center space-x-2 bg-[#161616] text-white px-8 py-4 rounded-full hover:bg-black transition text-sm font-medium">
+              <ArrowLeft className="w-4 h-4" />
+              <span>Kembali ke Katalog</span>
             </Link>
           </section>
+          <Footer />
         </div>
       )
     }
@@ -260,47 +117,8 @@ Terima kasih!`
         : null
 
     return (
-      <div className="bg-white min-h-screen">
-        {/* Navigation */}
-        <header className="container mx-auto px-6 py-5 flex justify-between items-center">
-          <div className="flex items-center">
-            <Link href="/">
-              <div className="flex items-center">
-                <ImageWithFallback
-                  src="/images/logo.svg"
-                  alt="UMKM Giriwoyo Logo"
-                  width={33}
-                  height={24}
-                  className="mr-2"
-                />
-                <span className="font-semibold text-sm text-[#161616]">UMKM Giriwoyo</span>
-              </div>
-            </Link>
-          </div>
-          <nav className="hidden md:flex space-x-8">
-            <Link href="/" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-              Beranda
-            </Link>
-            <Link href="/tentang-kami" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-              Tentang Kami
-            </Link>
-            <Link href="/katalog" className="text-sm font-normal text-[#b4252b]">
-              Katalog
-            </Link>
-            <Link href="/peta-umkm" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-              Peta UMKM
-            </Link>
-            <Link href="/panduan-belanja" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-              Panduan Belanja
-            </Link>
-            <Link href="/kontak" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-              Kontak
-            </Link>
-          </nav>
-          <div className="flex items-center">
-            <MobileMenu currentPath="/katalog" />
-          </div>
-        </header>
+      <div className="bg-[#fcfbf6] min-h-screen">
+        <Header currentPath="/katalog" />
 
         {/* Breadcrumb */}
         <section className="container mx-auto px-6 py-4">
@@ -474,89 +292,26 @@ Terima kasih!`
         )}
 
         {/* Footer */}
-        <footer className="bg-[#fcfbf6] py-16 border-t border-[#f1f1f1]">
-          <div className="container mx-auto px-6">
-            <div className="mb-10">
-              <h3 className="font-bold text-lg mb-2">UMKM GIO: Dari Giriwoyo, Untuk Indonesia.</h3>
-              <p className="text-sm font-normal max-w-md">
-                Sebuah jembatan digital untuk mendukung pertumbuhan UMKM lokal, melestarikan tradisi, dan menghadirkan
-                produk berkualitas bagi semua.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-4 gap-8">
-              <div>
-                <div className="flex space-x-4 mt-6">
-                  <Link href="https://www.instagram.com/umkm.gio/" className="text-[#161616]">
-                    <div className="w-8 h-8 flex items-center justify-center border border-[#d9d9d9] rounded-full">
-                      <ImageWithFallback src="/images/instagram.svg" alt="Instagram" width={16} height={16} />
-                    </div>
-                  </Link>
-                  <Link href="https://www.instagram.com/ofc.mapresgio/" className="text-[#161616]">
-                    <div className="w-8 h-8 flex items-center justify-center border border-[#d9d9d9] rounded-full">
-                      <ImageWithFallback src="/images/instagram.svg" alt="Instagram" width={16} height={16} />
-                    </div>
-                  </Link>
-                </div>
-                <div className="flex space-x-2 mt-2 text-xs">
-                  <span>@umkmgio</span>
-                  <span>@ofcmapresgio</span>
-                </div>
-              </div>
-
-              <div>
-                <h4 className="font-medium text-sm mb-3">Beranda</h4>
-                <h4 className="font-medium mb-3 text-sm">Tentang Kami</h4>
-                <h4 className="font-medium mb-3 text-sm">Produk</h4>
-              </div>
-
-              <div>
-                <h4 className="font-medium mb-3 text-sm">Peta UMKM</h4>
-              </div>
-
-              <div>
-                <h4 className="font-medium mb-3 text-sm">Panduan Belanja</h4>
-                <h4 className="font-medium mb-3 text-sm">Kontak</h4>
-              </div>
-            </div>
-          </div>
-        </footer>
+        <Footer />
       </div>
     )
   } catch (error) {
     console.error("Error in ProductDetail:", error)
 
     return (
-      <div className="bg-white min-h-screen">
-        <header className="container mx-auto px-6 py-5 flex justify-between items-center">
-          <div className="flex items-center">
-            <Link href="/">
-              <div className="flex items-center">
-                <ImageWithFallback
-                  src="/images/logo.svg"
-                  alt="UMKM Giriwoyo Logo"
-                  width={33}
-                  height={24}
-                  className="mr-2"
-                />
-                <span className="font-semibold text-sm text-[#161616]">UMKM Giriwoyo</span>
-              </div>
-            </Link>
-          </div>
-          <div className="flex items-center">
-            <MobileMenu currentPath="/katalog" />
-          </div>
-        </header>
-
-        <section className="container mx-auto px-6 py-16 text-center">
-          <h1 className="text-3xl font-semibold text-[#161616] mb-4">Terjadi Kesalahan</h1>
-          <p className="text-gray-500 mb-8">
+      <div className="bg-[#fcfbf6] min-h-screen">
+        <Header currentPath="/katalog" />
+        <section className="container mx-auto px-6 py-32 text-center">
+          <h1 className="text-5xl font-bold text-[#161616] tracking-tighter mb-4">Terjadi Kesalahan</h1>
+          <p className="text-[#161616]/60 mb-12 max-w-md mx-auto">
             Maaf, terjadi kesalahan saat memuat detail produk. Silakan coba lagi nanti.
           </p>
-          <Link href="/katalog" className="bg-[#161616] text-white px-6 py-3 rounded-full hover:bg-black transition">
-            Kembali ke Katalog
+          <Link href="/katalog" className="inline-flex items-center space-x-2 bg-[#161616] text-white px-8 py-4 rounded-full hover:bg-black transition text-sm font-medium">
+            <ArrowLeft className="w-4 h-4" />
+            <span>Kembali ke Katalog</span>
           </Link>
         </section>
+        <Footer />
       </div>
     )
   }

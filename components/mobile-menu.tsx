@@ -41,7 +41,7 @@ export default function MobileMenu({ currentPath }: MobileMenuProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-2 z-50">
+        <div className="absolute right-0 mt-2 w-48 bg-[#fcfbf6] rounded-xl shadow-lg py-2 z-50 border border-[#161616]/5">
           <Link
             href="/"
             className={`block px-4 py-2 text-sm ${

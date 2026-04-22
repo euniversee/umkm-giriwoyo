@@ -1,7 +1,10 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
-import MobileMenu from "@/components/mobile-menu"
+import ImageWithFallback from "@/components/image-with-fallback"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
+import { loadUmkmData } from "@/lib/load-umkm-data"
 
 export const metadata: Metadata = {
   title: "Beranda - Platform UMKM Lokal Giriwoyo",
@@ -33,295 +36,226 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <div className="bg-white min-h-screen">
-      {/* Navigation */}
-      <header className="container mx-auto px-6 py-5 flex justify-between items-center">
-        <div className="flex items-center">
-          <Image src="/images/logo.svg" alt="UMKM Giriwoyo Logo" width={33} height={24} className="mr-2" />
-          <span className="font-semibold text-sm text-[#161616]">UMKM Giriwoyo</span>
-        </div>
-        <nav className="hidden md:flex space-x-8">
-          <Link href="/" className="text-sm font-normal text-[#b4252b]">
-            Beranda
-          </Link>
-          <Link href="/tentang-kami" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-            Tentang Kami
-          </Link>
-          <Link href="/katalog" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-            Katalog
-          </Link>
-          <Link href="/peta-umkm" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-            Peta UMKM
-          </Link>
-          <Link href="/panduan-belanja" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-            Panduan Belanja
-          </Link>
-          <Link href="/kontak" className="text-sm font-normal text-[#161616] hover:text-[#b4252b]">
-            Kontak
-          </Link>
-        </nav>
-        <div className="flex items-center">
-          <MobileMenu currentPath="/" />
-        </div>
-      </header>
+      <Header currentPath="/" />
 
       {/* Hero Section */}
-      <section className="container mx-auto px-6 pt-16 pb-20 text-center">
-        <h1 className="text-5xl font-semibold text-[#161616] max-w-3xl mx-auto leading-tight">
-          Monggo dipun sekseni asiling pakaryan lokal.
-        </h1>
-        <span className="subtitle-caption">Silakan saksikan hasil karya lokal kami</span>
+      <section className="container mx-auto px-6 pt-24 pb-32">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="max-w-2xl text-left">
+            <h1 className="text-6xl md:text-7xl font-semibold text-[#161616] leading-[1.1] tracking-tighter text-balance">
+              Monggo dipun sekseni asiling pakaryan lokal.
+            </h1>
+            <p className="subtitle-caption text-xl mt-4 text-[#b4252b]/80 font-medium italic">
+              Silakan saksikan hasil karya lokal kami
+            </p>
+            <p className="text-lg font-normal text-[#161616]/70 mt-8 mb-10 max-w-lg leading-relaxed">
+              Lebih dari sekadar produk, ini adalah cerita, tradisi, dan semangat hangat dari setiap sudut Giriwoyo.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                href="/katalog"
+                className="bg-[#161616] text-white text-sm font-medium px-8 py-4 rounded-full hover:bg-black transition-all active:scale-95 text-center shadow-lg hover:shadow-xl"
+              >
+                Jelajahi Katalog
+              </Link>
+              <Link
+                href="/tentang-kami"
+                className="bg-transparent text-[#161616] text-sm font-medium px-8 py-4 rounded-full border border-[#161616]/20 hover:bg-[#161616]/5 transition-all active:scale-95 text-center"
+              >
+                Tentang Kami
+              </Link>
+            </div>
+          </div>
 
-        <div className="relative mt-10 mb-10 h-[240px]">
-          <div className="food-gallery">
-            <div className="food-image-container" style={{ transform: "rotate(-6deg)" }}>
+          <div className="relative h-[500px] hidden lg:block">
+            <div className="absolute top-0 right-0 w-64 h-64 rotate-3 hover:rotate-0 transition-transform duration-500 z-30 group">
               <Image
                 src="/images/food-1.jpg"
-                alt="Sate ayam dengan bumbu kacang"
-                width={200}
-                height={200}
-                className="rounded-3xl shadow-lg object-cover"
+                alt="Sate ayam"
+                fill
+                className="rounded-3xl shadow-2xl object-cover border-4 border-white transition-transform group-hover:scale-105"
               />
             </div>
-            <div className="food-image-container" style={{ transform: "rotate(-3deg)" }}>
-              <Image
-                src="/images/food-2.jpg"
-                alt="Tumis kangkung dengan cabai"
-                width={200}
-                height={200}
-                className="rounded-3xl shadow-lg object-cover"
-              />
-            </div>
-            <div className="food-image-container" style={{ transform: "rotate(0deg)" }}>
+            <div className="absolute top-20 right-40 w-56 h-56 -rotate-6 hover:rotate-0 transition-transform duration-500 z-20 group">
               <Image
                 src="/images/food-3.jpg"
-                alt="Nasi dengan ayam dan lalapan"
-                width={200}
-                height={200}
-                className="rounded-3xl shadow-lg object-cover"
+                alt="Nasi ayam"
+                fill
+                className="rounded-3xl shadow-2xl object-cover border-4 border-white transition-transform group-hover:scale-105"
               />
             </div>
-            <div className="food-image-container" style={{ transform: "rotate(3deg)" }}>
-              <Image
-                src="/images/food-4.jpg"
-                alt="Nasi dengan lauk pauk di daun pisang"
-                width={200}
-                height={200}
-                className="rounded-3xl shadow-lg object-cover"
-              />
-            </div>
-            <div className="food-image-container" style={{ transform: "rotate(6deg)" }}>
+            <div className="absolute bottom-0 right-10 w-72 h-72 rotate-12 hover:rotate-0 transition-transform duration-500 z-10 group">
               <Image
                 src="/images/food-5.jpg"
-                alt="Tumis kangkung dengan cabai"
-                width={200}
-                height={200}
-                className="rounded-3xl shadow-lg object-cover"
+                alt="Masakan lokal"
+                fill
+                className="rounded-3xl shadow-2xl object-cover border-4 border-white transition-transform group-hover:scale-105"
               />
             </div>
           </div>
         </div>
-
-        <p className="text-sm font-normal text-[#161616] mb-8">
-          Lebih dari sekadar produk, ini adalah cerita, tradisi, dan semangat hangat dari setiap sudut Giriwoyo.
-        </p>
-
-        <div className="flex justify-center space-x-4">
-          <Link
-            href="/tentang-kami"
-            className="bg-[#161616] text-white text-sm font-medium px-6 py-3 rounded-full hover:bg-[#000000] transition"
-          >
-            Tentang Kami
-          </Link>
-          <Link
-            href="/katalog"
-            className="bg-white text-[#161616] text-sm font-medium px-6 py-3 rounded-full border border-[#d9d9d9] hover:bg-[#f1f1f1] transition"
-          >
-            Jelajahi Katalog
-          </Link>
-        </div>
       </section>
 
-      {/* Products Section */}
-      <section className="container mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
-        <div>
-          <h2 className="text-4xl font-bold text-[#161616] mb-6 leading-tight">
-            Temukan & Dukung Produk Lokal Terbaik
-          </h2>
-          <p className="text-sm font-normal text-[#161616] mb-8 max-w-md">
-            Jelajahi etalase digital kami dan temukan produk berkualitas yang menyimpan keunikan kearifan lokal dalam
-            setiap kemasannya.
-          </p>
-          <div className="flex space-x-4">
+      {/* Products Section - Editorial Grid */}
+      <section className="bg-[#161616] text-[#fcfbf6] py-32 overflow-hidden">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col lg:flex-row justify-between items-end mb-20 gap-8">
+            <div className="max-w-2xl">
+              <h2 className="text-5xl md:text-6xl font-semibold tracking-tighter leading-tight text-balance">
+                Temukan & Dukung Produk Lokal Terbaik
+              </h2>
+              <p className="text-xl text-[#fcfbf6]/60 mt-6 leading-relaxed max-w-lg">
+                Jelajahi etalase digital kami dan temukan produk berkualitas yang menyimpan keunikan kearifan lokal.
+              </p>
+            </div>
             <Link
               href="/katalog"
-              className="bg-[#161616] text-white text-sm px-6 py-3 rounded-full hover:bg-[#000000] transition"
+              className="group flex items-center gap-3 text-lg font-medium hover:text-[#b4252b] transition-colors"
             >
               Lihat Semua Produk
-            </Link>
-            <Link
-              href="/peta-umkm"
-              className="bg-white text-[#161616] text-sm px-6 py-3 rounded-full border border-[#d9d9d9] hover:bg-[#f1f1f1] transition"
-            >
-              Lihat Peta UMKM
+              <span className="w-12 h-12 flex items-center justify-center rounded-full border border-[#fcfbf6]/20 group-hover:border-[#b4252b] transition-all group-hover:translate-x-2">
+                →
+              </span>
             </Link>
           </div>
-        </div>
-        <div className="relative h-[360px]">
-          <div className="product-gallery">
-            <div className="product-image-container" style={{ transform: "rotate(-6deg)" }}>
-              <Image
-                src="/images/product-1.jpg"
-                alt="Sate ayam dengan bumbu kacang"
-                width={200}
-                height={200}
-                className="rounded-3xl shadow-lg object-cover"
-              />
-            </div>
-            <div className="product-image-container" style={{ transform: "rotate(0deg)" }}>
-              <Image
-                src="/images/product-2.jpg"
-                alt="Tumis kangkung dengan cabai"
-                width={200}
-                height={200}
-                className="rounded-3xl shadow-lg object-cover"
-              />
-            </div>
-            <div className="product-image-container" style={{ transform: "rotate(6deg)" }}>
-              <Image
-                src="/images/product-3.jpg"
-                alt="Nasi dengan ayam dan lalapan"
-                width={200}
-                height={200}
-                className="rounded-3xl shadow-lg object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Local Creation Section */}
-      <section className="container mx-auto px-6 py-20">
-        <h2 className="text-4xl font-bold text-[#161616] mb-10 leading-tight">Gerbang menuju kreasi lokal.</h2>
-        <div className="rounded-3xl overflow-hidden h-[400px] relative">
-          <Image src="/images/market.jpg" alt="Pasar tradisional Indonesia" fill className="object-cover" />
-        </div>
-      </section>
-
-      {/* Unique Products Section */}
-      <section className="container mx-auto px-6 py-20 text-center">
-        <h2 className="text-4xl font-bold text-[#161616] mb-16 leading-tight">Inovasi Bertemu Tradisi</h2>
-
-        <div className="grid md:grid-cols-2 gap-10">
-          <div className="text-left">
-            <div className="rounded-3xl overflow-hidden h-[300px] mb-6 relative">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="md:col-span-2 relative h-[450px] rounded-[2rem] overflow-hidden group cursor-pointer">
               <Image
-                src="/images/kelor-powder.webp"
-                alt="Produk olahan kelor DMAYKEELOR"
+                src="/images/market.jpg"
+                alt="Pasar lokal"
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
               />
-            </div>
-            <h3 className="font-bold text-xl mb-2">Kreasi Modern Olahan Kelor</h3>
-            <p className="text-sm font-normal text-[#161616] mb-4">
-              Rasakan manfaat 'superfood' lokal dalam sajian modern yang lezat. Inovasi menyehatkan dari DMAYKEELOR yang
-              siap memanjakan lidah Anda.
-            </p>
-            <Link
-              href="/katalog"
-              className="inline-block border border-[#d9d9d9] text-[#161616] text-sm px-6 py-2 rounded-full hover:bg-[#f1f1f1] transition"
-            >
-              Lihat Produk
-            </Link>
-          </div>
-
-          <div className="text-left">
-            <div className="rounded-3xl overflow-hidden h-[300px] mb-6 relative">
-              <Image
-                src="/images/balung-kethek.webp"
-                alt="Jajanan Balung Kethek khas Giriwoyo"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <h3 className="font-bold text-xl mb-2">Jajanan Legendaris Balung Kethek</h3>
-            <p className="text-sm font-normal text-[#161616] mb-4">
-              Cicipi gurihnya camilan otentik khas Giriwoyo dengan nama yang unik. Warisan kuliner dari Balung Kethek
-              Ayu Pak Budi yang selalu dirindukan.
-            </p>
-            <Link
-              href="/katalog"
-              className="inline-block border border-[#d9d9d9] text-[#161616] text-sm px-6 py-2 rounded-full hover:bg-[#f1f1f1] transition"
-            >
-              Lihat Produk
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-[#fcfbf6] py-16 mt-12 border-t border-[#f1f1f1]">
-        <div className="container mx-auto px-6">
-          <div className="mb-10">
-            <h3 className="font-bold text-lg mb-2">UMKM GIO: Dari Giriwoyo, Untuk Indonesia.</h3>
-            <p className="text-sm font-normal max-w-md">
-              Sebuah jembatan digital untuk mendukung pertumbuhan UMKM lokal, melestarikan tradisi, dan menghadirkan
-              produk berkualitas bagi semua.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex space-x-4 mt-6">
-                <Link href="https://www.instagram.com/umkm.gio/" className="text-[#161616]">
-                  <div className="w-8 h-8 flex items-center justify-center border border-[#d9d9d9] rounded-full">
-                    <Image src="/images/instagram.svg" alt="Instagram" width={16} height={16} />
-                  </div>
-                </Link>
-                <Link href="https://www.instagram.com/ofc.mapresgio/" className="text-[#161616]">
-                  <div className="w-8 h-8 flex items-center justify-center border border-[#d9d9d9] rounded-full">
-                    <Image src="/images/instagram.svg" alt="Instagram" width={16} height={16} />
-                  </div>
-                </Link>
-              </div>
-              <div className="flex space-x-2 mt-2 text-xs">
-                <span>@umkmgio</span>
-                <span>@ofcmapresgio</span>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+              <div className="absolute bottom-10 left-10">
+                <span className="px-4 py-1 bg-[#b4252b] text-white text-xs font-bold rounded-full uppercase tracking-widest">
+                  Featured
+                </span>
+                <h3 className="text-3xl font-bold mt-4">Kearifan Lokal Giriwoyo</h3>
               </div>
             </div>
-
-            <div>
-              <h4 className="font-medium text-sm mb-3">
-                <Link href="/" className="hover:text-[#b4252b]">
-                  Beranda
-                </Link>
-              </h4>
-              <h4 className="font-medium mb-3 text-sm">
-                <Link href="/tentang-kami" className="hover:text-[#b4252b]">
-                  Tentang Kami
-                </Link>
-              </h4>
-              <h4 className="font-medium mb-3 text-sm">
-                <Link href="/katalog" className="hover:text-[#b4252b]">
-                  Produk
-                </Link>
-              </h4>
-            </div>
-
-            <div>
-              <h4 className="font-medium mb-3 text-sm">
-                <Link href="/peta-umkm" className="hover:text-[#b4252b]">
-                  Peta UMKM
-                </Link>
-              </h4>
-            </div>
-
-            <div>
-              <h4 className="font-medium mb-3 text-sm">Panduan Belanja</h4>
-              <h4 className="font-medium mb-3 text-sm">Kontak</h4>
+            <div className="grid grid-rows-2 gap-8">
+              <div className="relative rounded-[2rem] overflow-hidden group cursor-pointer bg-[#262626]">
+                <Image
+                  src="/images/product-1.jpg"
+                  alt="Produk 1"
+                  fill
+                  className="object-cover opacity-80 group-hover:opacity-100 transition-all group-hover:scale-105"
+                />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-sm">
+                  <span className="text-sm font-medium bg-[#fcfbf6] text-[#161616] px-6 py-2 rounded-full">
+                    Detail Produk
+                  </span>
+                </div>
+              </div>
+              <div className="relative rounded-[2rem] overflow-hidden group cursor-pointer bg-[#262626]">
+                <Image
+                  src="/images/product-2.jpg"
+                  alt="Produk 2"
+                  fill
+                  className="object-cover opacity-80 group-hover:opacity-100 transition-all group-hover:scale-105"
+                />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-sm">
+                  <span className="text-sm font-medium bg-[#fcfbf6] text-[#161616] px-6 py-2 rounded-full">
+                    Detail Produk
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </footer>
+      </section>
+
+      {/* Unique Products Section - Asymmetrical Layout */}
+      <section className="container mx-auto px-6 py-32">
+        <div className="flex items-center gap-4 mb-20">
+          <div className="h-px flex-1 bg-[#161616]/10" />
+          <h2 className="text-4xl md:text-5xl font-semibold tracking-tighter text-center">Inovasi Bertemu Tradisi</h2>
+          <div className="h-px flex-1 bg-[#161616]/10" />
+        </div>
+
+        <div className="space-y-40">
+          {/* Row 1 */}
+          <div className="flex flex-col lg:flex-row gap-20 items-center">
+            <div className="flex-1 relative aspect-[4/3] w-full group">
+              <div className="absolute -inset-4 bg-[#b4252b]/5 rounded-[2.5rem] -rotate-2 group-hover:rotate-0 transition-transform duration-500" />
+              <div className="relative h-full w-full rounded-[2rem] overflow-hidden shadow-2xl">
+                <Image src="/images/kelor-powder.webp" alt="Olahan Kelor" fill className="object-cover" />
+              </div>
+            </div>
+            <div className="flex-1 lg:pl-10">
+              <span className="text-[#b4252b] font-bold text-sm uppercase tracking-[0.2em] mb-4 block">
+                Local Superfood
+              </span>
+              <h3 className="text-4xl font-bold mb-6 tracking-tight leading-tight">Kreasi Modern Olahan Kelor</h3>
+              <p className="text-lg text-[#161616]/70 leading-relaxed mb-8">
+                Rasakan manfaat 'superfood' lokal dalam sajian modern yang lezat. Inovasi menyehatkan dari DMAYKEELOR
+                yang siap memanjakan lidah Anda. Tiap butir serbuk kelor diproses dengan standar kualitas tinggi untuk
+                menjaga nutrisi alaminya.
+              </p>
+              <Link
+                href="/katalog"
+                className="inline-flex items-center gap-2 group font-semibold text-[#161616]"
+              >
+                <span className="relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[#161616] after:origin-right after:scale-x-0 group-hover:after:origin-left group-hover:after:scale-x-100 after:transition-transform">
+                  Pelajari Lebih Lanjut
+                </span>
+                <span className="transition-transform group-hover:translate-x-1">→</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* Row 2 */}
+          <div className="flex flex-col lg:flex-row-reverse gap-20 items-center">
+            <div className="flex-1 relative aspect-[4/3] w-full group">
+              <div className="absolute -inset-4 bg-[#161616]/5 rounded-[2.5rem] rotate-2 group-hover:rotate-0 transition-transform duration-500" />
+              <div className="relative h-full w-full rounded-[2rem] overflow-hidden shadow-2xl">
+                <Image src="/images/balung-kethek.webp" alt="Balung Kethek" fill className="object-cover" />
+              </div>
+            </div>
+            <div className="flex-1 lg:pr-10">
+              <span className="text-[#161616]/40 font-bold text-sm uppercase tracking-[0.2em] mb-4 block">
+                Heritage Snack
+              </span>
+              <h3 className="text-4xl font-bold mb-6 tracking-tight leading-tight">Jajanan Legendaris Balung Kethek</h3>
+              <p className="text-lg text-[#161616]/70 leading-relaxed mb-8">
+                Cicipi gurihnya camilan otentik khas Giriwoyo dengan nama yang unik. Warisan kuliner dari Balung Kethek
+                Ayu Pak Budi yang selalu dirindukan, diolah secara tradisional untuk rasa yang tak terlupakan.
+              </p>
+              <Link
+                href="/katalog"
+                className="inline-flex items-center gap-2 group font-semibold text-[#161616]"
+              >
+                <span className="relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[#161616] after:origin-right after:scale-x-0 group-hover:after:origin-left group-hover:after:scale-x-100 after:transition-transform">
+                  Lihat Katalog Jajanan
+                </span>
+                <span className="transition-transform group-hover:translate-x-1">→</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="container mx-auto px-6 py-32">
+        <div className="bg-[#b4252b] rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 transition-transform group-hover:scale-150 duration-700" />
+          <div className="relative z-10">
+            <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-8 leading-tight max-w-3xl mx-auto">
+              Siap Menemukan Keajaiban Lokal Giriwoyo?
+            </h2>
+            <Link
+              href="/katalog"
+              className="bg-white text-[#b4252b] text-lg font-bold px-10 py-5 rounded-full hover:shadow-[0_20px_50px_rgba(255,255,255,0.3)] transition-all active:scale-95 inline-block"
+            >
+              Mulai Menjelajah Sekarang
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   )
 }
