@@ -10,11 +10,11 @@
 
 ## ✨ Fitur Utama
 
-- ** Katalog Produk Dinamis**: Menampilkan berbagai produk lokal mulai dari kuliner tradisional (Balung Kethek, Olahan Kelor) hingga kerajinan tangan, dengan data yang diperbarui secara *real-time* melalui integrasi CSV.
-- ** Peta Interaktif UMKM**: Visualisasi lokasi usaha menggunakan **Leaflet JS**, memudahkan konsumen untuk menemukan titik lokasi UMKM di seluruh pelosok Giriwoyo.
-- ** Optimasi Mobile-First**: Desain yang responsif dan ringan, disesuaikan dengan kebiasaan pengguna lokal yang mayoritas mengakses platform melalui smartphone.
-- ** Dashboard Admin**: Antarmuka khusus untuk monitoring data UMKM, memastikan informasi yang ditampilkan tetap akurat dan mutakhir.
-- ** Integrasi WhatsApp**: Hubungan langsung antara pembeli dan penjual melalui fitur "Klik untuk Chat", mempercepat proses transaksi tanpa hambatan.
+- **Katalog Produk Dinamis**: Menampilkan berbagai produk lokal mulai dari kuliner tradisional (Balung Kethek, Olahan Kelor) hingga kerajinan tangan, dengan data yang diperbarui secara *real-time* melalui integrasi CSV.
+- **Peta Interaktif UMKM**: Visualisasi lokasi usaha menggunakan **Leaflet JS**, memudahkan konsumen untuk menemukan titik lokasi UMKM di seluruh pelosok Giriwoyo.
+- **Optimasi Mobile-First**: Desain yang responsif dan ringan, disesuaikan dengan kebiasaan pengguna lokal yang mayoritas mengakses platform melalui smartphone.
+- **Dashboard Admin**: Antarmuka khusus untuk monitoring data UMKM, memastikan informasi yang ditampilkan tetap akurat dan mutakhir.
+- **Integrasi WhatsApp**: Hubungan langsung antara pembeli dan penjual melalui fitur "Klik untuk Chat", mempercepat proses transaksi tanpa hambatan.
 
 ---
 
@@ -64,8 +64,3 @@ Proyek ini menggunakan pendekatan **Data-as-a-Service** yang sederhana namun efe
 - Seluruh data UMKM disimpan dalam file CSV eksternal yang di-host di Vercel Blob Storage.
 - File `lib/load-umkm-data.ts` bertanggung jawab untuk memproses, memvalidasi (menggunakan Zod), dan menyediakan data tersebut ke seluruh komponen aplikasi.
 - Pendekatan ini memungkinkan pembaruan data tanpa harus melakukan *deployment* ulang kode sumber.
-
----
-
-
-Developed with ❤️ for **Giriwoyo, Wonogiri**.
