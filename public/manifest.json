@@ -1,0 +1,27 @@
+{
+  "name": "UMKM Giriwoyo",
+  "short_name": "UMKM Giriwoyo",
+  "description": "Platform digital untuk UMKM Giriwoyo - Temukan produk lokal berkualitas dari pengusaha mikro, kecil, dan menengah di Giriwoyo",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#b4252b",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "categories": ["business", "shopping", "productivity"],
+  "lang": "id",
+  "dir": "ltr"
+}
