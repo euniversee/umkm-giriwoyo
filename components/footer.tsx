@@ -62,7 +62,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="pt-10 flex flex-col md:flex-row justify-between items-center gap-4 text-[#fcfbf6]/40 text-sm">
-          <p>© 2026 Platform UMKM Lokal Giriwoyo. Kabeh Hak Reksa.</p>
+          <p>© 2026 Platform UMKM Lokal Giriwoyo.</p>
           <div className="flex gap-8">
             <Link href="#" className="hover:text-white transition-colors">Kebijakan Privasi</Link>
             <Link href="#" className="hover:text-white transition-colors">Syarat & Ketentuan</Link>
