@@ -40,171 +40,162 @@ ${message}`
   }
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-[#fcfbf6] min-h-screen">
       <Header currentPath="/kontak" />
 
       {/* Hero Section */}
-      <section className="py-24">
-        <div className="container mx-auto px-6 text-center">
-          <span className="text-[#b4252b] font-bold text-sm uppercase tracking-[0.2em] mb-4 block">Get in Touch</span>
-          <h1 className="text-6xl font-bold text-[#161616] tracking-tighter mb-6 leading-tight">Hubungi Kami</h1>
-          <p className="text-xl text-[#161616]/60 max-w-2xl mx-auto leading-relaxed">
-            Ada pertanyaan atau ingin berkolaborasi? Kami siap membantu dan mendengar ide-ide cemerlang Anda.
-          </p>
+      <section className="py-32 relative overflow-hidden">
+        <div className="container mx-auto px-6">
+          <div className="lg:grid lg:grid-cols-[1.2fr,0.8fr] gap-20 items-center">
+            <div>
+              <span className="text-[#b4252b] font-bold text-[10px] uppercase tracking-[0.4em] mb-8 block">Inquiries</span>
+              <h1 className="text-7xl md:text-9xl font-bold text-[#161616] tracking-tighter leading-[0.85] mb-12">
+                 Mari Bicara <br />
+                 Karya Lokal.
+              </h1>
+              <p className="text-2xl text-[#161616]/60 leading-relaxed font-medium max-w-xl">
+                Terbuka untuk diskusi, kolaborasi, atau sekadar sapaan hangat untuk para pejuang ekonomi Giriwoyo.
+              </p>
+            </div>
+            
+            <div className="hidden lg:block">
+              <div className="w-full aspect-square relative rounded-[40px] overflow-hidden">
+                <Image 
+                  src="/images/logo.svg" 
+                  alt="Decorative Logo" 
+                  fill 
+                  className="object-contain opacity-5 grayscale"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Contact Info */}
-      <section className="container mx-auto px-6 py-12">
-        <div className="grid md:grid-cols-2 gap-12">
-          <div>
-            <h2 className="text-2xl font-bold text-[#161616] mb-8">Informasi Kontak</h2>
+      {/* Main Content */}
+      <section className="container mx-auto px-6 pb-48">
+        <div className="grid lg:grid-cols-[0.8fr,1.2fr] gap-24 items-start">
+          {/* Contact Info */}
+          <div className="order-2 lg:order-1 space-y-16">
+            <div>
+              <h3 className="text-xs font-bold text-[#b4252b] uppercase tracking-widest mb-10">Titik Temu</h3>
+              <div className="space-y-12">
+                <div className="group flex items-start gap-8">
+                  <div className="w-14 h-14 rounded-2xl border border-[#161616]/10 flex items-center justify-center shrink-0 group-hover:bg-[#161616] group-hover:text-white transition-all">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-[#161616] uppercase tracking-tighter mb-2">Lokasi Utama</h4>
+                    <p className="text-lg text-[#161616]/60 leading-relaxed">
+                      Desa Giriwoyo, Kecamatan Giriwoyo<br />
+                      Kabupaten Wonogiri, Jawa Tengah
+                    </p>
+                  </div>
+                </div>
 
-            <div className="space-y-6">
-              <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 flex items-center justify-center border border-[#d9d9d9] rounded-full hover:border-[#b4252b] transition">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M3.37892 10.2236L8 16L12.6211 10.2236C13.5137 9.10788 14 7.72154 14 6.29266V6C14 2.68629 11.3137 0 8 0C4.68629 0 2 2.68629 2 6V6.29266C2 7.72154 2.4863 9.10788 3.37892 10.2236ZM8 8C9.10457 8 10 7.10457 10 6C10 4.89543 9.10457 4 8 4C6.89543 4 6 4.89543 6 6C6 7.10457 6.89543 8 8 8Z"
-                      fill="currentColor"
-                    />
-                  </svg>
+                <div className="group flex items-start gap-8">
+                  <div className="w-14 h-14 rounded-2xl border border-[#161616]/10 flex items-center justify-center shrink-0 group-hover:bg-[#161616] group-hover:text-white transition-all">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-[#161616] uppercase tracking-tighter mb-2">Saluran Suara</h4>
+                    <p className="text-lg text-[#161616]/60 leading-relaxed">
+                      +62 831-3908-7647
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-bold text-lg mb-2">Alamat</h3>
-                  <p className="text-sm text-[#161616]">
-                    Desa Giriwoyo, Kecamatan Giriwoyo
-                    <br />
-                    Kabupaten Wonogiri, Jawa Tengah
-                    <br />
-                    Indonesia
-                  </p>
-                </div>
-              </div>
 
-              <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 flex items-center justify-center border border-[#d9d9d9] rounded-full hover:border-[#b4252b] transition">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M17.3545 22.2323C15.3344 21.7262 11.1989 20.2993 7.44976 16.5502C3.70065 12.8011 2.2738 8.66559 1.76767 6.6455C1.47681 5.48459 2.00058 4.36434 2.88869 3.72997L5.21694 2.06693C6.57922 1.09388 8.47432 1.42407 9.42724 2.80051L10.893 4.91776C11.5152 5.8165 11.3006 7.0483 10.4111 7.68365L9.24234 8.51849C9.41923 9.1951 9.96939 10.5846 11.6924 12.3076C13.4154 14.0306 14.8049 14.5807 15.4815 14.7576L16.3163 13.5888C16.9517 12.6994 18.1835 12.4847 19.0822 13.1069L21.1995 14.5727C22.5759 15.5257 22.9061 17.4207 21.933 18.783L20.27 21.1113C19.6356 21.9994 18.5154 22.5232 17.3545 22.2323ZM8.86397 15.136C12.2734 18.5454 16.0358 19.8401 17.8405 20.2923C18.1043 20.3583 18.4232 20.2558 18.6425 19.9488L20.3056 17.6205C20.6299 17.1665 20.5199 16.5348 20.061 16.2171L17.9438 14.7513L17.0479 16.0056C16.6818 16.5182 16.0047 16.9202 15.2163 16.7501C14.2323 16.5378 12.4133 15.8569 10.2782 13.7218C8.1431 11.5867 7.46219 9.7677 7.24987 8.7837C7.07977 7.9953 7.48181 7.31821 7.99439 6.95208L9.24864 6.05618L7.78285 3.93893C7.46521 3.48011 6.83351 3.37005 6.37942 3.6944L4.05117 5.35744C3.74413 5.57675 3.64162 5.89565 3.70771 6.15943C4.15989 7.96418 5.45459 11.7266 8.86397 15.136Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-bold text-lg mb-2">Telepon</h3>
-                  <p className="text-sm text-[#161616]">+62 831-3908-7647</p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 flex items-center justify-center border border-[#d9d9d9] rounded-full hover:border-[#b4252b] transition">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M4 9.00005L10.2 13.65C11.2667 14.45 12.7333 14.45 13.8 13.65L20 9"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M3 9.17681C3 8.45047 3.39378 7.78123 4.02871 7.42849L11.0287 3.5396C11.6328 3.20402 12.3672 3.20402 12.9713 3.5396L19.9713 7.42849C20.6062 7.78123 21 8.45047 21 9.17681V17C21 18.1046 20.1046 19 19 19H5C3.89543 19 3 18.1046 3 17V9.17681Z"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-bold text-lg mb-2">Email</h3>
-                  <p className="text-sm text-[#161616]">imapresgiriwoyo2@gmail.com</p>
+                <div className="group flex items-start gap-8">
+                  <div className="w-14 h-14 rounded-2xl border border-[#161616]/10 flex items-center justify-center shrink-0 group-hover:bg-[#161616] group-hover:text-white transition-all">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-[#161616] uppercase tracking-tighter mb-2">Korespondensi</h4>
+                    <p className="text-lg text-[#161616]/60 leading-relaxed italic underline">
+                      imapresgiriwoyo2@gmail.com
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-8">
-              <h3 className="font-bold text-lg mb-4">Media Sosial</h3>
-              <div className="flex space-x-4">
-                <Link href="https://www.instagram.com/umkm.gio/" className="text-[#161616] hover:text-[#b4252b]">
-                  <div className="w-10 h-10 flex items-center justify-center border border-[#d9d9d9] rounded-full hover:border-[#b4252b] transition">
-                    <Image src="/images/instagram.svg" alt="Instagram" width={20} height={20} />
-                  </div>
-                </Link>
-                <Link href="https://www.instagram.com/ofc.mapresgio/" className="text-[#161616] hover:text-[#b4252b]">
-                  <div className="w-10 h-10 flex items-center justify-center border border-[#d9d9d9] rounded-full hover:border-[#b4252b] transition">
-                    <Image src="/images/instagram.svg" alt="Instagram" width={20} height={20} />
-                  </div>
-                </Link>
-              </div>
-              <div className="flex space-x-4 mt-2 text-xs text-[#161616]">
-                <span>@umkmgio</span>
-                <span>@ofcmapresgio</span>
+            <div className="pt-12 border-t border-[#161616]/5">
+              <h3 className="text-xs font-bold text-[#b4252b] uppercase tracking-widest mb-8">Ikuti Jejak Kami</h3>
+              <div className="flex gap-6">
+                 <Link href="https://www.instagram.com/umkm.gio/" className="group relative">
+                    <div className="w-12 h-12 rounded-full border border-[#161616]/10 flex items-center justify-center group-hover:bg-[#b4252b] group-hover:border-[#b4252b] transition-all">
+                      <Image src="/images/instagram.svg" alt="Instagram" width={18} height={18} className="group-hover:invert transition-all" />
+                    </div>
+                    <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">@umkmgio</span>
+                 </Link>
+                 <Link href="https://www.instagram.com/ofc.mapresgio/" className="group relative">
+                    <div className="w-12 h-12 rounded-full border border-[#161616]/10 flex items-center justify-center group-hover:bg-[#b4252b] group-hover:border-[#b4252b] transition-all">
+                      <Image src="/images/instagram.svg" alt="Instagram" width={18} height={18} className="group-hover:invert transition-all" />
+                    </div>
+                    <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">@mapresgio</span>
+                 </Link>
               </div>
             </div>
           </div>
 
-          <div>
-            <h2 className="text-2xl font-bold text-[#161616] mb-8">Kirim Pesan</h2>
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-[#161616] mb-2">
-                  Nama Lengkap
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  className="w-full px-4 py-3 border border-[#d9d9d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b4252b] focus:border-transparent"
-                  placeholder="Masukkan nama lengkap Anda"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-              </div>
+          {/* Form */}
+          <div className="order-1 lg:order-2">
+            <div className="bg-white p-12 rounded-[60px] shadow-sm border border-[#161616]/5 mb-12">
+              <form className="space-y-10" onSubmit={handleSubmit}>
+                <div className="space-y-4">
+                  <label htmlFor="name" className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#161616]/40 block ml-2">Identitas Anda</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    className="w-full bg-[#fcfbf6] px-8 py-6 rounded-[24px] focus:outline-none focus:ring-2 focus:ring-[#b4252b] focus:bg-white transition-all text-lg font-medium border-none"
+                    placeholder="Nama Lengkap"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                </div>
 
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-[#161616] mb-2">
-                  Subjek
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  className="w-full px-4 py-3 border border-[#d9d9d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b4252b] focus:border-transparent"
-                  placeholder="Masukkan subjek pesan"
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                  required
-                />
-              </div>
+                <div className="space-y-4">
+                  <label htmlFor="subject" className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#161616]/40 block ml-2">Perihal</label>
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    className="w-full bg-[#fcfbf6] px-8 py-6 rounded-[24px] focus:outline-none focus:ring-2 focus:ring-[#b4252b] focus:bg-white transition-all text-lg font-medium border-none"
+                    placeholder="Apa yang ingin dibicarakan?"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    required
+                  />
+                </div>
 
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-[#161616] mb-2">
-                  Pesan
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={5}
-                  className="w-full px-4 py-3 border border-[#d9d9d9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b4252b] focus:border-transparent resize-none"
-                  placeholder="Tulis pesan Anda di sini..."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  required
-                ></textarea>
-              </div>
+                <div className="space-y-4">
+                  <label htmlFor="message" className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#161616]/40 block ml-2">Pesan Anda</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={6}
+                    className="w-full bg-[#fcfbf6] px-8 py-6 rounded-[32px] focus:outline-none focus:ring-2 focus:ring-[#b4252b] focus:bg-white transition-all text-lg font-medium resize-none border-none"
+                    placeholder="Tuliskan pesan menarik Anda di sini..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    required
+                  ></textarea>
+                </div>
 
-              <button
-                type="submit"
-                className="w-full bg-[#161616] text-white text-sm font-medium py-3 rounded-lg hover:bg-[#000000] transition"
-              >
-                Kirim Pesan via WhatsApp
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  className="w-full group bg-[#161616] text-white flex items-center justify-center gap-4 py-8 rounded-[32px] text-lg font-bold hover:bg-[#b4252b] transition-all duration-500 shadow-xl"
+                >
+                  Terhubung via WhatsApp
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="group-hover:translate-x-2 transition-transform"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </form>
+            </div>
+            <p className="text-center text-[#161616]/40 text-xs px-12">
+              Kami biasanya merespons dalam waktu kurang dari 24 jam. Terima kasih telah menghubungi UMKM Giriwoyo.
+            </p>
           </div>
         </div>
       </section>
