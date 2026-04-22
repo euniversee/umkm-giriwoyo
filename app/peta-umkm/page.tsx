@@ -2,7 +2,7 @@ import PetaUMKMClient from "./PetaUMKMClient"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Peta UMKM | UMKM Giriwoyo",
+  title: "Peta UMKM",
   description: "Peta lokasi UMKM di Giriwoyo",
 }
 

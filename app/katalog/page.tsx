@@ -12,7 +12,7 @@ interface KatalogProps {
 }
 
 export const metadata: Metadata = {
-  title: "Katalog Produk UMKM Giriwoyo - Produk Lokal Berkualitas",
+  title: "Katalog Produk",
   description:
     "Jelajahi katalog lengkap produk-produk berkualitas dari UMKM lokal Giriwoyo, Wonogiri. Temukan makanan tradisional, kerajinan, dan inovasi produk lokal terbaik.",
   keywords: [
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     "belanja online lokal",
   ],
   openGraph: {
-    title: "Katalog Produk UMKM Giriwoyo - Produk Lokal Berkualitas",
+    title: "Katalog Produk",
     description: "Jelajahi katalog lengkap produk-produk berkualitas dari UMKM lokal Giriwoyo, Wonogiri.",
     images: [
       {

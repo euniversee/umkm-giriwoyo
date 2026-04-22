@@ -7,7 +7,7 @@ import Footer from "@/components/footer"
 import { loadUmkmData } from "@/lib/load-umkm-data"
 
 export const metadata: Metadata = {
-  title: "Beranda - Platform UMKM Lokal Giriwoyo",
+  title: "Beranda",
   description:
     "Temukan dan dukung produk-produk berkualitas dari UMKM lokal Giriwoyo, Wonogiri. Dari makanan tradisional hingga inovasi modern, semua ada di sini.",
   keywords: [

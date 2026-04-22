@@ -5,7 +5,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 
 export const metadata: Metadata = {
-  title: "Tentang Kami | UMKM Giriwoyo",
+  title: "Tentang Kami",
   description: "Kisah Imapres Kelbang Giriwoyo dalam mendukung pertumbuhan UMKM lokal melalui platform digital",
 }
 
