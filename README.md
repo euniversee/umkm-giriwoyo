@@ -10,11 +10,11 @@
 
 ## ✨ Fitur Utama
 
-- **📦 Katalog Produk Dinamis**: Menampilkan berbagai produk lokal mulai dari kuliner tradisional (Balung Kethek, Olahan Kelor) hingga kerajinan tangan, dengan data yang diperbarui secara *real-time* melalui integrasi CSV.
-- **📍 Peta Interaktif UMKM**: Visualisasi lokasi usaha menggunakan **Leaflet JS**, memudahkan konsumen untuk menemukan titik lokasi UMKM di seluruh pelosok Giriwoyo.
-- **📱 Optimasi Mobile-First**: Desain yang responsif dan ringan, disesuaikan dengan kebiasaan pengguna lokal yang mayoritas mengakses platform melalui smartphone.
-- **🛡️ Dashboard Admin**: Antarmuka khusus untuk monitoring data UMKM, memastikan informasi yang ditampilkan tetap akurat dan mutakhir.
-- **💬 Integrasi WhatsApp**: Hubungan langsung antara pembeli dan penjual melalui fitur "Klik untuk Chat", mempercepat proses transaksi tanpa hambatan.
+- ** Katalog Produk Dinamis**: Menampilkan berbagai produk lokal mulai dari kuliner tradisional (Balung Kethek, Olahan Kelor) hingga kerajinan tangan, dengan data yang diperbarui secara *real-time* melalui integrasi CSV.
+- ** Peta Interaktif UMKM**: Visualisasi lokasi usaha menggunakan **Leaflet JS**, memudahkan konsumen untuk menemukan titik lokasi UMKM di seluruh pelosok Giriwoyo.
+- ** Optimasi Mobile-First**: Desain yang responsif dan ringan, disesuaikan dengan kebiasaan pengguna lokal yang mayoritas mengakses platform melalui smartphone.
+- ** Dashboard Admin**: Antarmuka khusus untuk monitoring data UMKM, memastikan informasi yang ditampilkan tetap akurat dan mutakhir.
+- ** Integrasi WhatsApp**: Hubungan langsung antara pembeli dan penjual melalui fitur "Klik untuk Chat", mempercepat proses transaksi tanpa hambatan.
 
 ---
 
@@ -67,19 +67,5 @@ Proyek ini menggunakan pendekatan **Data-as-a-Service** yang sederhana namun efe
 
 ---
 
-## 🤝 Kontribusi & Dukungan
-
-Proyek ini dikembangkan dengan semangat kolaborasi untuk memajukan ekonomi lokal Giriwoyo. Jika Anda ingin berkontribusi:
-1. Fork repositori ini.
-2. Buat branch fitur baru (`git checkout -b fitur-keren`).
-3. Commit perubahan Anda (`git commit -m 'Menambah fitur keren'`).
-4. Push ke branch tersebut (`git push origin fitur-keren`).
-5. Buat Pull Request.
-
-Dukung kami melalui media sosial:
-- Instagram: [@umkm.gio](https://www.instagram.com/umkm.gio/)
-- Instagram: [@ofc.mapresgio](https://www.instagram.com/ofc.mapresgio/)
-
----
 
 Developed with ❤️ for **Giriwoyo, Wonogiri**.
